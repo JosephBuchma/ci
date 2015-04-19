@@ -1,6 +1,6 @@
 'use strict';
 
-(function(global){
+(function (global) {
 
   /**
    * The only function exported to global scope.
@@ -12,7 +12,7 @@
       download: true,
       header: true,
       dynamicTyping: true,
-      complete: function(d) {
+      complete: function (d) {
         renderCharts(d.data);
       }
     });
@@ -27,7 +27,7 @@
 
 
   function renderChart1(data) {
-    var abnormalsWithColorsObj = _.reduce(data.abnormal, function(result, n, key) {
+    var abnormalsWithColorsObj = _.reduce(data.abnormal, function (result, n) {
       result[n] = "rgba(220,0,0,1)";
       return result;
     }, {});
@@ -54,7 +54,7 @@
           highlighted: abnormalsWithColorsObj
         }
       ]
-    }
+    };
     renderChart("chart1", chartData, 'StackedBar');
 
   }
@@ -73,7 +73,7 @@
           data: data.datasets.duration
         }
       ]
-    }
+    };
     renderChart("chart2", chartData, 'Line');
   }
 
@@ -89,7 +89,7 @@
    * @return {undefined}            nothing to return
    */
   function renderChart(canvasId, chartData, chartType, chartOptions) {
-    if (typeof(chartOptions) == 'undefined') {
+    if (chartOptions === undefined) {
       chartOptions = {};
     }
     var ctx = $('#'+canvasId)[0].getContext("2d");
@@ -115,12 +115,10 @@
    */
   function extractDataset(allData) {
 
-    var groupedByDay = _(allData).groupBy(function(n){
-      var date = new Date(n.created_at.slice(0,10));
+    var groupedByDay = _(allData).groupBy(function (n) {
+      var date = new Date(n.created_at.slice(0, 10));
       return date.getTime();
     });
-
-    console.log(groupedByDay.value());
 
     var orderedDates = groupedByDay.keys().sort();
 
@@ -131,7 +129,7 @@
     };
 
     var statuses_cnt;
-    orderedDates.each(function(date){
+    orderedDates.each(function (date) {
       statuses_cnt = _.countBy(groupedByDay.get(date), 'summary_status');
       datasets.passed.push(statuses_cnt.passed || 0);
       datasets.failed.push(statuses_cnt.failed || 0);
@@ -139,18 +137,16 @@
       datasets.duration.push(_.sum(groupedByDay.get(date), 'duration'))
     }).value();
 
-    var humanReadableDates = orderedDates.map(function(k){
+    var humanReadableDates = orderedDates.map(function (k) {
       var d = new Date(+k);
-      return d.toString().slice(4,16);
+      return d.toString().slice(4, 16);
     }).value();
 
-    
-    
     return {
       labels: humanReadableDates,
       datasets: datasets,
       abnormal: findAbnormal(datasets.passed, datasets.failed)
-    }
+    };
   }
 
   /**
@@ -163,7 +159,7 @@
   function findAbnormal(passedArr, failedArr) {
     var totalTmp; 
     var absDiff;
-    var abnormalityCoefficients = _.map(_.zip(passedArr, failedArr), function(p){
+    var abnormalityCoefficients = _.map(_.zip(passedArr, failedArr), function (p) {
       return p[0] ? p[1]/(p[0]+p[1]) : (p[1] <= 5 ? 0.2 * p[1] : 1);
     });
 
@@ -172,8 +168,8 @@
     var deviation = ss.standard_deviation(abnormalityCoefficients);
 
 
-    var ret = _.reduce(abnormalityCoefficients, function(result, n, ind) {
-      if (n > mean+deviation) {
+    var ret = _.reduce(abnormalityCoefficients, function (result, n, ind) {
+      if (n > mean + deviation) {
         result.push(ind);
       }
       return result;
@@ -188,6 +184,6 @@
 })(this);
 
 
-$(function(){
+$(function () {
   loadDataAndBuildCharts();
 });
