@@ -1,0 +1,65 @@
+<!doctype HTML>
+<html>
+    <head>
+        <link rel="stylesheet" href="css/styles.css">
+        <script src="bower_components/lodash/lodash.js" type="text/javascript"></script>
+        <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+        <script src="bower_components/papaparse/papaparse.js" type="text/javascript"></script>
+        <script src="js/lib/chart.js" type="text/javascript"></script>
+        <script src="js/lib/chart.stackedBar.js" type="text/javascript"></script>
+        <script src="bower_components/simple-statistics/src/simple_statistics.js" type="text/javascript"></script>
+        <script src="js/app.js" type="text/javascript"></script>
+    </head>
+    <body>
+
+        <div class="explanation-popup explanation-task">
+            <div class="label">
+                <h4>Task</h4>
+            </div>
+            <div class="content">
+                <h3>1. Charting app</h3>
+        
+                Implement JS app that reads the session_history.csv file, and uses a JS charting library of your choice to present the following time-series:
+        
+                   - passing and failing builds per day, stacked-chart
+                   - build duration vs. time
+        
+                <h3>2. Highlight Outliers</h3>
+        
+                Extend the app from (1) to annotate days in the chart that have an "abnormal" number of failing builds.  Define (and justify) how you are determining "abnormal".
+            </div>
+        </div>
+        <div class="explanation-popup explanation-abnormal">
+            <div class="label">
+                <h4>What is "abnormal" number of failing builds</h4>
+            </div>
+            <div class="content">
+                <h3>How I determine 'abnormal' number of failing builds</h3>
+                No fails is good. Failed builds is bad. So I determine 'abnormal' number of failing builds as 'too much of fails'. <br>
+                So here is how I actually render it:
+                <ul>
+                    <li>
+                        Step 1: calculate 'abnormalityCoefficient' (AC) for each day, which is simply <br>  <code>fails ? fails/(fails+passes) : (fails &lt;= 5 ? 0.2 * fails : 1);</code>
+                    </li>
+                    <li>
+                        Step 2: Mark days with <br> <code>AC > average(AC)+standard_deviation(AC)</code> as 'abnormal'
+                    </li>
+                </ul>
+                The benefit of this approach is that it shows the most relevant 'abnormal' days depending on input dataset. So you could look at picture in general, as well as analyzing relatively small chunks of data with 'abnormal' days gighlighted accordingly. <br><br>
+
+                'Abnormal' days are higlighted by bright red color of failed builds graph bars.
+
+            </div>
+        </div>
+        <div class="charts-container">
+            <h2>Passing and failing builds per day</h2>
+            <div id="chart1Legend" class="chart-legend-box" ></div>
+            <canvas id="chart1" class="chart"></canvas>
+            <h2>Build duration vs. time</h2>
+            <div id="chart2Legend" class="chart-legend-box" ></div>
+            <canvas id="chart2" class="chart"></canvas>
+
+        </div>
+    
+    </body>
+</html>

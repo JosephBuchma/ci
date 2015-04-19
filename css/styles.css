@@ -1,0 +1,130 @@
+*
+{
+    box-sizing: border-box;
+}
+
+.charts-container
+{
+    width: 100%;
+    padding: 10px;
+}
+
+.charts-container .chart
+{
+    width: 100%;
+    height: 400px;
+}
+
+.charts-container h2
+{
+    font-family: sans-serif;
+    font-weight: 100;
+}
+
+.chart-legend-box
+{
+    position: relative;
+}
+
+.chart-legend-box ul[class$='legend']
+{
+    position: absolute;
+    top: 0;
+    right: 8px;
+
+    list-style: none;
+}
+
+
+.chart-legend-box ul[class$='legend'] li
+{
+    font-family: monospace;
+    font-size: 14px;
+
+    position: relative;
+
+    display: block;
+
+    margin-bottom: 4px;
+    padding: 2px 8px 2px 28px;
+    padding-left: 30px;
+
+    cursor: default;
+    -webkit-transition: background-color 200ms ease-in-out;
+       -moz-transition: background-color 200ms ease-in-out;
+         -o-transition: background-color 200ms ease-in-out;
+            transition: background-color 200ms ease-in-out;
+
+    border-radius: 5px;
+}
+
+.chart-legend-box ul[class$='legend'] li span
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: block;
+
+    width: 20px;
+    height: 100%;
+
+    border-radius: 5px;
+}
+
+
+.explanation-popup
+{
+    position: absolute;
+    top: 0;
+    left: 10px;
+
+    overflow: hidden;
+
+    width: 100px;
+    height: 40px;
+
+    -webkit-transition: all 200ms ease-in-out;
+       -moz-transition: all 200ms ease-in-out;
+         -o-transition: all 200ms ease-in-out;
+            transition: all 200ms ease-in-out;
+
+    background: white;
+}
+
+.explanation-popup:hover
+{
+    width: 500px;
+    height: 500px;
+
+    -webkit-transition: all 200ms ease-in-out;
+       -moz-transition: all 200ms ease-in-out;
+         -o-transition: all 200ms ease-in-out;
+            transition: all 200ms ease-in-out;
+
+    border: 1px solid #555;
+}
+
+.explanation-popup .label h4
+{
+    font-family: sans-serif;
+
+    margin: 0 10px;
+
+    cursor: pointer;
+
+    color: #3aa1ff;
+}
+
+.explanation-popup .content
+{
+    width: 500px;
+    padding: 5px;
+}
+
+.explanation-popup.explanation-abnormal
+{
+    left: 600px;
+
+    width: 500px;
+}
