@@ -39,7 +39,7 @@
                 So here is how I actually render it:
                 <ul>
                     <li>
-                        Step 1: calculate 'abnormalityCoefficient' (AC) for each day, which is simply <br>  <code>fails ? fails/(fails+passes) : (fails &lt;= 5 ? 0.2 * fails : 1);</code>
+                        Step 1: calculate 'abnormalityCoefficient' (AC) for each day, which is simply <br>  <code>passes ? fails/(fails+passes) : (fails &lt;= 5 ? 0.2 * fails : 1);</code>
                     </li>
                     <li>
                         Step 2: Mark days with <br> <code>AC > average(AC)+standard_deviation(AC)</code> as 'abnormal'
